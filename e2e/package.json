@@ -1,0 +1,18 @@
+{
+  "name": "@incident-board/e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright end-to-end and responsive-layout audits",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:live": "playwright test --grep @live",
+    "install-browsers": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0"
+  }
+}

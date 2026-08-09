@@ -1,0 +1,38 @@
+{
+  "name": "@incident-board/api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Incident board REST API — Express 5, SQLite, Zod, local-LLM insight service",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "migrate": "tsx src/db/migrate.ts",
+    "seed": "tsx src/db/seed.ts",
+    "eval": "tsx eval/run-eval.ts"
+  },
+  "dependencies": {
+    "@incident-board/shared": "*",
+    "better-sqlite3": "^13.0.3",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.6.2",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.2.0",
+    "@types/supertest": "^7.2.1",
+    "@vitest/coverage-v8": "^4.1.10",
+    "supertest": "^7.2.2",
+    "tsx": "^4.23.11",
+    "typescript": "~5.9.3",
+    "vitest": "^4.1.10"
+  }
+}
