@@ -41,6 +41,13 @@ If Ollama is not running, insight generation still returns a useful deterministi
 - AI-assisted alert assessment with provenance, warnings, priority cross-checks, and feedback.
 - Unit/integration tests, Playwright E2E, axe checks, responsive layout audit, eval harness, CI, and Docker files.
 
+## Assumptions
+
+- This is an internal operations-board prototype, not a public production system; the deployed demo is intentionally unauthenticated.
+- The portfolio is small enough that recalculating triage on each read is acceptable. Larger fleets should materialise/search/index the derived board state.
+- Alert records are the source of truth for the AI feature. There is no live SCADA/BMS telemetry integration in this exercise.
+- Local Ollama is optional. The app must still work and test deterministically when the model is unavailable.
+
 ## Architecture
 
 ```mermaid

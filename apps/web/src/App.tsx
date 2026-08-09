@@ -83,18 +83,18 @@ export function App(): React.JSX.Element {
 
   const setFilters = useCallback(
     (next: BoardFilters) => {
-      setUrlState({ ...urlState, filters: next });
+      setUrlState((current) => ({ ...current, filters: next }));
     },
-    [setUrlState, urlState],
+    [setUrlState],
   );
 
   const selectAlert = useCallback(
     (id: string | null) => {
       // Opening a drawer replaces rather than pushes: a Back press that only closes a panel is
       // a nuisance, whereas Back undoing a filter change is genuinely useful.
-      setUrlState({ ...urlState, selectedAlertId: id }, 'replace');
+      setUrlState((current) => ({ ...current, selectedAlertId: id }), 'replace');
     },
-    [setUrlState, urlState],
+    [setUrlState],
   );
 
   const refreshBoard = useCallback(() => {

@@ -67,6 +67,16 @@ test('offers only the legal next statuses', async ({ page }) => {
   await expect(drawer.getByRole('button', { name: 'Resolve' })).toHaveCount(0);
 });
 
+test('search debounce does not close an alert opened from the filtered result', async ({ page }) => {
+  await page.getByRole('searchbox', { name: 'Search alerts' }).fill('ALT-1032');
+  await page.getByRole('button', { name: /String output 29% below/ }).first().click();
+
+  const drawer = page.getByRole('dialog');
+  await expect(drawer).toBeVisible();
+  await page.waitForTimeout(400);
+  await expect(drawer).toBeVisible();
+});
+
 test('filters, and keeps the filter in the URL so a board can be shared', async ({ page }) => {
   await page.getByRole('button', { name: /^Critical/ }).click();
 

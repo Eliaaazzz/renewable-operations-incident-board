@@ -135,7 +135,7 @@ Known local verification gap:
 
 ### User Prompt 3
 
-The user attached a screenshot of the board filtered to needs-attention/open-critical-looking state and asked why three zero-count filter buttons were unclickable, why the board showed two alerts while the KPI said three open critical alerts, and requested an adversarial review of correctness, security, and API performance. The user then added: "after that push to the github" and "btw, CI tests fail, fix the code".
+The user attached a screenshot of the board filtered to needs-attention/open-critical-looking state and asked why three zero-count filter buttons were unclickable, why the board showed two alerts while the KPI said three open critical alerts, and requested an adversarial review of correctness, security, and API performance. The user then added: "after that push to the github", "btw, CI tests fail, fix the code", and pasted the assignment deliverables again.
 
 ### Codex Material Actions And Outputs
 
@@ -145,3 +145,30 @@ The user attached a screenshot of the board filtered to needs-attention/open-cri
 - Inspected the latest GitHub Actions run `31318016593`. Lint, typecheck, unit/integration, build, and eval passed; E2E failed in `tests/layout.spec.ts` because the layout audit queried its dialog root before the selector was reliably available in CI.
 - Patched the E2E audit helper to wait for non-body roots before evaluating layout.
 - Added an E2E regression test that proves KPI drilldowns clear stale filters and show the in-progress critical alert.
+- After the first CI retry still failed, traced the real flake to stale URL state: the debounced search filter update could fire after a row click and close the drawer. Patched `useUrlState` to support updater functions and changed App filter/selection updates to preserve the latest state.
+
+### User Prompt 4
+
+The user asked Codex to fan out parallel agents and said the following was part of their Claude prompt history that should be added to the AI transcript:
+
+> plz fan out agents to do tasks in parallel  Renewable Operations Incident Board
+> Scenario
+> An operations team monitors a portfolio of solar and battery sites. They receive alerts but need a simple way to identify important issues, understand what happened and record follow-up actions.
+> Build a small web application that:
+> Uses 10-20 realistic mock alerts. Each alert should include a site, timestamp, type, severity, description and status.
+> Shows an overview or alert list with useful sorting or filtering and a clear indication of what requires attention.
+> Lets a user open an alert, change its status and add a follow-up note.
+> Includes a small backend/API and simple persistence, such as SQLite or a local file.
+> Includes one genuinely useful AI-assisted feature, such as summarising an alert or suggesting a priority or next action. You may use a local/free model, a mocked model interface, or a deterministic fallback; no paid API is required. Explain the limitations and how you would check the output.
+> Includes a few tests covering the behaviour you consider most important.
+> Please use any stack you are comfortable with.
+> AI-tool interaction record
+> If you use AI development tools, include the complete interaction history from every tool: your prompts, the tool's responses, and your follow-up iterations or corrections. Export it as AI_USAGE.md, a PDF, or a shareable transcript. If a tool cannot export its history, record the prompts and material outputs as you work. You may redact passwords, API keys, personal data or confidential information, but indicate where something was redacted. Include a short summary of how you checked the AI's work. If you do not use AI, state that in the README.
+> Deliverables
+> A Git repository containing the source code.
+> A README with setup instructions, assumptions, architecture and key trade-offs.
+> The complete AI interaction transcript described above, if any AI tools were used.
+> A short note describing what you would improve with more time.
+> A deployed version is welcome but not required.
+> Before the interview
+> Please send the repository link at least 24 hours before the interview and be prepared to give a 5-10 minute walkthrough. We will assess product judgement, usability, software structure, testing, communication and responsible use of AI. plz break this assignment into a few tasks and come up with a plan to execute on. You also need to consider edge cases, corner cases, make sure frontend is clear and no overlap between containers of text, using containerization. use SQLite for easy persistence, use open model like llama for summary of alerts, suggestion of priority, next actions. use full stack lamnguage, consider maintainbility, extensibility. these are my prompts to claude, add it up to yours

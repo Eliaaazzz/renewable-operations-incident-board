@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { parseUrlState, serialiseUrlState, type BoardUrlState } from './filters';
 
 /**
@@ -7,12 +7,21 @@ import { parseUrlState, serialiseUrlState, type BoardUrlState } from './filters'
  * are undoable; opening and closing the drawer `replace`s, because a browser Back that only
  * closes a panel is a nuisance rather than a feature.
  */
-export function useUrlState(): [BoardUrlState, (next: BoardUrlState, mode?: 'push' | 'replace') => void] {
+type UrlStateUpdate = BoardUrlState | ((current: BoardUrlState) => BoardUrlState);
+
+export function useUrlState(): [BoardUrlState, (next: UrlStateUpdate, mode?: 'push' | 'replace') => void] {
   const [state, setState] = useState<BoardUrlState>(() => parseUrlState(window.location.search));
+  const stateRef = useRef(state);
+
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
 
   useEffect(() => {
     const onPopState = (): void => {
-      setState(parseUrlState(window.location.search));
+      const next = parseUrlState(window.location.search);
+      stateRef.current = next;
+      setState(next);
     };
     window.addEventListener('popstate', onPopState);
     return () => {
@@ -20,14 +29,16 @@ export function useUrlState(): [BoardUrlState, (next: BoardUrlState, mode?: 'pus
     };
   }, []);
 
-  const update = useCallback((next: BoardUrlState, mode: 'push' | 'replace' = 'push') => {
-    const url = `${window.location.pathname}${serialiseUrlState(next)}`;
+  const update = useCallback((next: UrlStateUpdate, mode: 'push' | 'replace' = 'push') => {
+    const resolved = typeof next === 'function' ? next(stateRef.current) : next;
+    stateRef.current = resolved;
+    const url = `${window.location.pathname}${serialiseUrlState(resolved)}`;
     if (mode === 'push') {
       window.history.pushState(null, '', url);
     } else {
       window.history.replaceState(null, '', url);
     }
-    setState(next);
+    setState(resolved);
   }, []);
 
   return [state, update];
