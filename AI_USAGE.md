@@ -104,6 +104,8 @@ GCP deployment continuation:
 - Codex created and pushed the public GitHub repository `https://github.com/Eliaaazzz/renewable-operations-incident-board`.
 - Codex added root `Dockerfile`, `WEB_DIST_PATH` config handling, and static serving in the API for a single-container Cloud Run deployment.
 - Codex smoke-tested the built single-service path locally on port 3201: `/` served HTML, `/api/health` returned healthy/degraded fallback state, and `/api/alerts?pageSize=1` returned 18 seeded alerts with `ALT-1042` first.
+- Codex deployed to Cloud Run in project `fitnessapp-mvp-475007`, region `australia-southeast1`, after adding an explicit source-bucket read permission for the default build service account.
+- Live deployment verified at `https://renewable-incident-board-221656021615.australia-southeast1.run.app`: `/` returned HTML, `/api/health` returned degraded fallback health, and `/api/alerts?pageSize=1` returned 18 alerts with `ALT-1042` first.
 
 Documentation:
 
