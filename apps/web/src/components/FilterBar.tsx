@@ -217,15 +217,15 @@ interface ChipToggleProps {
 }
 
 function ChipToggle({ label, count, pressed, onClick }: ChipToggleProps): React.JSX.Element {
-  // A chip that would return nothing is disabled rather than removed, so the layout does not
-  // reflow under the pointer as counts change on a refresh.
-  const empty = count === 0 && !pressed;
+  const matchText =
+    count === undefined ? undefined : `${count} alert${count === 1 ? '' : 's'} match current filters`;
   return (
     <button
       type="button"
       className={styles.filterChip}
       aria-pressed={pressed}
-      disabled={empty}
+      aria-label={matchText === undefined ? label : `${label}, ${matchText}`}
+      title={matchText}
       onClick={onClick}
     >
       <span className="truncate">{label}</span>

@@ -130,3 +130,18 @@ Known local verification gap:
 
 - Docker image builds and `docker compose up` were not run because the Docker daemon was not running on this machine.
 - Live Ollama generation was not run because Ollama was not installed/running. The default deterministic fallback and eval path were verified.
+
+## Codex Post-Deployment Debug Pass
+
+### User Prompt 3
+
+The user attached a screenshot of the board filtered to needs-attention/open-critical-looking state and asked why three zero-count filter buttons were unclickable, why the board showed two alerts while the KPI said three open critical alerts, and requested an adversarial review of correctness, security, and API performance. The user then added: "after that push to the github" and "btw, CI tests fail, fix the code".
+
+### Codex Material Actions And Outputs
+
+- Inspected frontend KPI, filter, URL-state, and E2E files with `rg`, `nl`, and GitHub Actions logs through `gh`.
+- Traced the count mismatch to `apps/web/src/App.tsx`: KPI tile clicks preserved existing filters, so clicking "Open critical" while "Needs attention" was active produced "open critical AND needs attention". The KPI was global and counted three open critical alerts; the list was narrowed to two because the third critical alert, `ALT-1039`, is already `in_progress` and therefore not in the needs-attention queue.
+- Traced unclickable zero-count chips to `apps/web/src/components/FilterBar.tsx`: chips with count `0` were rendered with the native `disabled` attribute. Codex changed them to remain clickable and added count-aware labels/tooltips.
+- Inspected the latest GitHub Actions run `31318016593`. Lint, typecheck, unit/integration, build, and eval passed; E2E failed in `tests/layout.spec.ts` because the layout audit queried its dialog root before the selector was reliably available in CI.
+- Patched the E2E audit helper to wait for non-body roots before evaluating layout.
+- Added an E2E regression test that proves KPI drilldowns clear stale filters and show the in-progress critical alert.

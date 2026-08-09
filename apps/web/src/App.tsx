@@ -1,5 +1,12 @@
 import { useCallback, useMemo } from 'react';
-import type { AlertListResponse, HealthResponse, SitesResponse, StatsResponse } from '@incident-board/shared';
+import {
+  OPEN_STATUSES,
+  type AlertListResponse,
+  type AlertStatus,
+  type HealthResponse,
+  type SitesResponse,
+  type StatsResponse,
+} from '@incident-board/shared';
 import { api } from './api/client';
 import { useResource } from './api/useResource';
 import { AlertDrawer } from './components/AlertDrawer';
@@ -16,6 +23,19 @@ import styles from './App.module.css';
 /** Live enough for an operations board, quiet enough not to fight someone reading it. */
 const POLL_MS = 30_000;
 const ATTENTION_PREVIEW = 5;
+const OPEN_STATUS_FILTER = [...OPEN_STATUSES] as AlertStatus[];
+
+function sameValues<T extends string>(left: readonly T[], right: readonly T[]): boolean {
+  return left.length === right.length && left.every((value) => right.includes(value));
+}
+
+function hasSecondaryFilters(filters: BoardFilters): boolean {
+  return (
+    filters.priority.length > 0 ||
+    filters.siteId.length > 0 ||
+    filters.q.trim().length > 0
+  );
+}
 
 export function App(): React.JSX.Element {
   const [urlState, setUrlState] = useUrlState();
@@ -83,8 +103,18 @@ export function App(): React.JSX.Element {
     attention.refresh();
   }, [alerts, stats, attention]);
 
+  const attentionActive =
+    filters.needsAttention &&
+    filters.status.length === 0 &&
+    filters.severity.length === 0 &&
+    !hasSecondaryFilters(filters);
+
   const criticalActive =
-    filters.severity.length === 1 && filters.severity[0] === 'critical';
+    !filters.needsAttention &&
+    filters.severity.length === 1 &&
+    filters.severity[0] === 'critical' &&
+    sameValues(filters.status, OPEN_STATUS_FILTER) &&
+    !hasSecondaryFilters(filters);
 
   const activeFilterCount = useMemo(() => countActiveFilters(filters), [filters]);
 
@@ -120,18 +150,21 @@ export function App(): React.JSX.Element {
 
         <KpiStrip
           stats={stats.data}
-          attentionActive={filters.needsAttention}
+          attentionActive={attentionActive}
           criticalActive={criticalActive}
           onToggleAttention={() => {
-            setFilters({ ...filters, needsAttention: !filters.needsAttention, page: 1 });
+            setFilters(attentionActive ? DEFAULT_FILTERS : { ...DEFAULT_FILTERS, needsAttention: true });
           }}
           onToggleCritical={() => {
-            setFilters({
-              ...filters,
-              severity: criticalActive ? [] : ['critical'],
-              status: criticalActive ? [] : ['new', 'acknowledged', 'in_progress'],
-              page: 1,
-            });
+            setFilters(
+              criticalActive
+                ? DEFAULT_FILTERS
+                : {
+                    ...DEFAULT_FILTERS,
+                    severity: ['critical'],
+                    status: OPEN_STATUS_FILTER,
+                  },
+            );
           }}
         />
 

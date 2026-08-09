@@ -189,6 +189,9 @@ const AUDIT_SCRIPT = (rootSelector: string): LayoutViolation[] => {
 };
 
 export async function auditLayout(page: Page, rootSelector = 'body'): Promise<LayoutViolation[]> {
+  if (rootSelector !== 'body') {
+    await page.locator(rootSelector).first().waitFor({ state: 'visible' });
+  }
   return page.evaluate(AUDIT_SCRIPT, rootSelector);
 }
 

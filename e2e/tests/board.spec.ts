@@ -82,6 +82,24 @@ test('filters, and keeps the filter in the URL so a board can be shared', async 
   );
 });
 
+test('KPI drilldowns do not accidentally intersect with stale filters', async ({ page }) => {
+  await page.getByRole('button', { name: /^Needs attention/ }).first().click();
+  await expect(page).toHaveURL(/needsAttention=true/);
+
+  await page.getByRole('button', { name: /^Open critical/ }).click();
+
+  await expect(page).toHaveURL(/severity=critical/);
+  await expect(page).toHaveURL(/status=new%2Cacknowledged%2Cin_progress/);
+  await expect(page).not.toHaveURL(/needsAttention=true/);
+  await expect(page.getByRole('button', { name: /^Needs attention only/ })).toHaveAttribute(
+    'aria-pressed',
+    'false',
+  );
+  // The third open critical is already in progress, so it only appears when the KPI drilldown
+  // clears the needs-attention filter.
+  await expect(page.getByRole('button', { name: /Three tracker rows failed/ }).first()).toBeVisible();
+});
+
 test('says so plainly when a filter combination matches nothing', async ({ page }) => {
   await page.getByRole('searchbox', { name: 'Search alerts' }).fill('zzz-no-such-alert');
 
