@@ -1,0 +1,111 @@
+.badge {
+  composes: chip from global;
+  border: 1px solid transparent;
+}
+
+.glyph {
+  font-size: 0.9em;
+  line-height: 1;
+  /* The glyph is decorative reinforcement; the adjacent word carries the meaning. */
+  speak: never;
+}
+
+/* Severity ---------------------------------------------------------------- */
+
+.critical {
+  background: var(--severity-critical-soft);
+  color: var(--severity-critical);
+  border-color: color-mix(in srgb, var(--severity-critical) 35%, transparent);
+}
+
+.high {
+  background: var(--severity-high-soft);
+  color: var(--severity-high);
+  border-color: color-mix(in srgb, var(--severity-high) 35%, transparent);
+}
+
+.medium {
+  background: var(--severity-medium-soft);
+  color: var(--severity-medium);
+  border-color: color-mix(in srgb, var(--severity-medium) 35%, transparent);
+}
+
+.low {
+  background: var(--severity-low-soft);
+  color: var(--severity-low);
+  border-color: color-mix(in srgb, var(--severity-low) 35%, transparent);
+}
+
+/* Status ------------------------------------------------------------------ */
+
+.new {
+  background: var(--status-new-soft);
+  color: var(--status-new);
+}
+
+.acknowledged {
+  background: var(--status-acknowledged-soft);
+  color: var(--status-acknowledged);
+}
+
+.in_progress {
+  background: var(--status-in_progress-soft);
+  color: var(--status-in_progress);
+}
+
+.resolved {
+  background: var(--status-resolved-soft);
+  color: var(--status-resolved);
+}
+
+.dismissed {
+  background: var(--status-dismissed-soft);
+  color: var(--status-dismissed);
+}
+
+/* Priority ---------------------------------------------------------------- */
+
+.priority {
+  composes: chip from global;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+}
+
+.P1 {
+  background: var(--severity-critical);
+  color: var(--surface-raised);
+}
+
+.P2 {
+  background: var(--severity-high);
+  color: var(--surface-raised);
+}
+
+.P3 {
+  background: transparent;
+  color: var(--severity-medium);
+  border-color: var(--severity-medium);
+}
+
+.P4 {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border-strong);
+}
+
+/* Breach ------------------------------------------------------------------ */
+
+.breach {
+  composes: chip from global;
+  background: var(--danger-soft);
+  color: var(--danger);
+  border: 1px solid color-mix(in srgb, var(--danger) 40%, transparent);
+}
+
+.attention {
+  composes: chip from global;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}

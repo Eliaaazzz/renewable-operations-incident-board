@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="Operations incident board for a portfolio of solar and battery storage sites."
+    />
+    <title>Incident Board — Renewable Operations</title>
+    <script>
+      // Applied before first paint so a dark-theme user never sees a white flash.
+      (() => {
+        try {
+          const stored = localStorage.getItem('incident-board-theme');
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.dataset.theme = stored;
+          }
+        } catch {
+          /* private browsing: fall back to the media query */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

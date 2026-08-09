@@ -1,0 +1,252 @@
+/*
+ * Design tokens.
+ *
+ * Both colour schemes are defined here, twice over: once behind `prefers-color-scheme` so the
+ * app follows the operating system by default, and once behind `[data-theme]` so an explicit
+ * choice in the header always wins. Control rooms run dark and site offices run light, and
+ * neither should have to fight the other's default.
+ *
+ * Every colour pair here clears WCAG AA for body text against its own surface. Severity is
+ * never signalled by colour alone — each badge also carries a glyph and a word.
+ */
+
+:root {
+  /* Spacing — a single scale, so nothing is ever positioned with an arbitrary pixel value. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 8%);
+  --shadow-md: 0 4px 12px rgb(15 23 42 / 10%);
+  --shadow-lg: 0 16px 48px rgb(15 23 42 / 18%);
+
+  --header-height: 3.5rem;
+  --drawer-width: min(34rem, 100vw);
+
+  /* Light scheme */
+  --surface-page: #f6f7f9;
+  --surface-raised: #ffffff;
+  --surface-sunken: #eef1f5;
+  --surface-hover: #f1f4f8;
+  --surface-inverse: #0f172a;
+
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #526179;
+  --text-inverse: #f8fafc;
+
+  --accent: #1d4ed8;
+  --accent-hover: #1e40af;
+  --accent-soft: #dbeafe;
+  --accent-text: #1e3a8a;
+  --accent-fg: #ffffff;
+
+  --focus-ring: #2563eb;
+
+  --severity-critical: #b91c1c;
+  --severity-critical-soft: #fee2e2;
+  --severity-high: #b45309;
+  --severity-high-soft: #fef3c7;
+  --severity-medium: #0369a1;
+  --severity-medium-soft: #e0f2fe;
+  --severity-low: #475569;
+  --severity-low-soft: #e2e8f0;
+
+  --status-new: #1d4ed8;
+  --status-new-soft: #dbeafe;
+  --status-acknowledged: #6d28d9;
+  --status-acknowledged-soft: #ede9fe;
+  --status-in_progress: #0f766e;
+  --status-in_progress-soft: #ccfbf1;
+  --status-resolved: #15803d;
+  --status-resolved-soft: #dcfce7;
+  --status-dismissed: #57534e;
+  --status-dismissed-soft: #e7e5e4;
+
+  --ai-accent: #7c3aed;
+  --ai-soft: #f3e8ff;
+  --warning: #b45309;
+  --warning-soft: #fef3c7;
+  --danger: #b91c1c;
+  --danger-soft: #fee2e2;
+  --success: #15803d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-page: #0b1120;
+    --surface-raised: #131c2e;
+    --surface-sunken: #0f172a;
+    --surface-hover: #1c273c;
+    --surface-inverse: #e2e8f0;
+
+    --border-subtle: #243149;
+    --border-strong: #33415c;
+
+    --text-primary: #e8edf5;
+    --text-secondary: #a9b6cc;
+    --text-muted: #8494ad;
+    --text-inverse: #0f172a;
+
+    --accent: #60a5fa;
+    --accent-hover: #93c5fd;
+    --accent-soft: #1e3a5f;
+    --accent-text: #bfdbfe;
+    --accent-fg: #0b1120;
+
+    --focus-ring: #60a5fa;
+
+    --severity-critical: #fca5a5;
+    --severity-critical-soft: #4c1d1d;
+    --severity-high: #fcd34d;
+    --severity-high-soft: #46330f;
+    --severity-medium: #7dd3fc;
+    --severity-medium-soft: #123449;
+    --severity-low: #cbd5e1;
+    --severity-low-soft: #26324a;
+
+    --status-new: #93c5fd;
+    --status-new-soft: #1c3557;
+    --status-acknowledged: #c4b5fd;
+    --status-acknowledged-soft: #2e2352;
+    --status-in_progress: #5eead4;
+    --status-in_progress-soft: #10403c;
+    --status-resolved: #86efac;
+    --status-resolved-soft: #14401f;
+    --status-dismissed: #d6d3d1;
+    --status-dismissed-soft: #2f2c2a;
+
+    --ai-accent: #c4b5fd;
+    --ai-soft: #2e2352;
+    --warning: #fcd34d;
+    --warning-soft: #46330f;
+    --danger: #fca5a5;
+    --danger-soft: #4c1d1d;
+    --success: #86efac;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 45%);
+    --shadow-lg: 0 16px 48px rgb(0 0 0 / 60%);
+  }
+}
+
+/* An explicit choice in the header overrides the system preference in both directions. */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --surface-page: #f6f7f9;
+  --surface-raised: #ffffff;
+  --surface-sunken: #eef1f5;
+  --surface-hover: #f1f4f8;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #526179;
+  --accent: #1d4ed8;
+  --accent-hover: #1e40af;
+  --accent-soft: #dbeafe;
+  --accent-text: #1e3a8a;
+  --accent-fg: #ffffff;
+  --focus-ring: #2563eb;
+  --severity-critical: #b91c1c;
+  --severity-critical-soft: #fee2e2;
+  --severity-high: #b45309;
+  --severity-high-soft: #fef3c7;
+  --severity-medium: #0369a1;
+  --severity-medium-soft: #e0f2fe;
+  --severity-low: #475569;
+  --severity-low-soft: #e2e8f0;
+  --status-new: #1d4ed8;
+  --status-new-soft: #dbeafe;
+  --status-acknowledged: #6d28d9;
+  --status-acknowledged-soft: #ede9fe;
+  --status-in_progress: #0f766e;
+  --status-in_progress-soft: #ccfbf1;
+  --status-resolved: #15803d;
+  --status-resolved-soft: #dcfce7;
+  --status-dismissed: #57534e;
+  --status-dismissed-soft: #e7e5e4;
+  --ai-accent: #7c3aed;
+  --ai-soft: #f3e8ff;
+  --warning: #b45309;
+  --warning-soft: #fef3c7;
+  --danger: #b91c1c;
+  --danger-soft: #fee2e2;
+  --success: #15803d;
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 8%);
+  --shadow-md: 0 4px 12px rgb(15 23 42 / 10%);
+  --shadow-lg: 0 16px 48px rgb(15 23 42 / 18%);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --surface-page: #0b1120;
+  --surface-raised: #131c2e;
+  --surface-sunken: #0f172a;
+  --surface-hover: #1c273c;
+  --border-subtle: #243149;
+  --border-strong: #33415c;
+  --text-primary: #e8edf5;
+  --text-secondary: #a9b6cc;
+  --text-muted: #8494ad;
+  --accent: #60a5fa;
+  --accent-hover: #93c5fd;
+  --accent-soft: #1e3a5f;
+  --accent-text: #bfdbfe;
+  --accent-fg: #0b1120;
+  --focus-ring: #60a5fa;
+  --severity-critical: #fca5a5;
+  --severity-critical-soft: #4c1d1d;
+  --severity-high: #fcd34d;
+  --severity-high-soft: #46330f;
+  --severity-medium: #7dd3fc;
+  --severity-medium-soft: #123449;
+  --severity-low: #cbd5e1;
+  --severity-low-soft: #26324a;
+  --status-new: #93c5fd;
+  --status-new-soft: #1c3557;
+  --status-acknowledged: #c4b5fd;
+  --status-acknowledged-soft: #2e2352;
+  --status-in_progress: #5eead4;
+  --status-in_progress-soft: #10403c;
+  --status-resolved: #86efac;
+  --status-resolved-soft: #14401f;
+  --status-dismissed: #d6d3d1;
+  --status-dismissed-soft: #2f2c2a;
+  --ai-accent: #c4b5fd;
+  --ai-soft: #2e2352;
+  --warning: #fcd34d;
+  --warning-soft: #46330f;
+  --danger: #fca5a5;
+  --danger-soft: #4c1d1d;
+  --success: #86efac;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 45%);
+  --shadow-lg: 0 16px 48px rgb(0 0 0 / 60%);
+}
