@@ -31,6 +31,12 @@ const EnvSchema = z.object({
   /** Seed the database on boot when it is empty. Never overwrites existing rows. */
   SEED_ON_BOOT: BooleanEnv.pipe(z.boolean().default(true)),
 
+  /** Optional built web app directory. Used by the single-container Cloud Run deployment. */
+  WEB_DIST_PATH: z.preprocess(
+    (value) => (value === '' ? undefined : value),
+    z.string().min(1).optional(),
+  ),
+
   /** Comma-separated list of allowed browser origins, or `*`. */
   CORS_ORIGIN: z.string().min(1).default('http://localhost:5173'),
 

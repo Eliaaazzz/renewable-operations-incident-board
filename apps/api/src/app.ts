@@ -109,6 +109,13 @@ export function createApp(options: CreateAppOptions): AppBundle {
     }),
   );
 
+  if (config.WEB_DIST_PATH !== undefined) {
+    app.use(express.static(config.WEB_DIST_PATH));
+    app.get(/^(?!\/api(?:\/|$)).*/, (_req, res) => {
+      res.sendFile('index.html', { root: config.WEB_DIST_PATH });
+    });
+  }
+
   app.use(notFoundHandler());
   app.use(errorHandler(logger));
 

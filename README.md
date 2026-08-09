@@ -171,6 +171,18 @@ The API container stores SQLite data in the `incident-data` volume and points to
 
 Docker Desktop must be running before image builds or compose can be verified.
 
+Cloud Run deploy:
+
+```sh
+gcloud run deploy renewable-incident-board \
+  --source . \
+  --region australia-southeast1 \
+  --allow-unauthenticated \
+  --set-env-vars NODE_ENV=production,DATABASE_PATH=/tmp/incident-board.db,SEED_ON_BOOT=true,AI_ENABLED=false,WEB_DIST_PATH=/app/apps/web/dist,CORS_ORIGIN=*
+```
+
+The root `Dockerfile` is a single-service Cloud Run image: Express serves `/api/*` and the built React app from the same container. This demo deployment uses ephemeral SQLite in `/tmp`; use the compose setup or a mounted volume/backing database for durable production data.
+
 ## Trade-Offs
 
 - SQLite keeps setup simple and gives real persistence, but this is a single-process/small-team design.

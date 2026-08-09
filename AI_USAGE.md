@@ -97,6 +97,14 @@ Infrastructure:
 - `docker compose config`: passed.
 - `docker info`: failed because Docker Desktop/daemon was not running locally.
 
+GCP deployment continuation:
+
+- User asked: "can u deploy via gcp" and clarified "make it public" for the GitHub repository.
+- Codex checked `gh`, `gh auth status`, `gcloud --version`, `gcloud auth list`, `gcloud config get-value project`, and `gcloud config get-value run/region`.
+- Codex created and pushed the public GitHub repository `https://github.com/Eliaaazzz/renewable-operations-incident-board`.
+- Codex added root `Dockerfile`, `WEB_DIST_PATH` config handling, and static serving in the API for a single-container Cloud Run deployment.
+- Codex smoke-tested the built single-service path locally on port 3201: `/` served HTML, `/api/health` returned healthy/degraded fallback state, and `/api/alerts?pageSize=1` returned 18 seeded alerts with `ALT-1042` first.
+
 Documentation:
 
 - Added `README.md`.
