@@ -2,7 +2,7 @@
 
 A small full-stack incident board for a solar and battery storage operations team. It ranks active alerts by operational urgency, shows what happened, lets an operator record status changes and follow-up notes, and provides an AI-assisted summary/next-action panel with deterministic fallback.
 
-Live demo: https://renewable-incident-board-221656021615.australia-southeast1.run.app
+Live demo: https://renewable-incident-board-2i2cfcy4cq-ts.a.run.app
 
 ## Quick Start
 
