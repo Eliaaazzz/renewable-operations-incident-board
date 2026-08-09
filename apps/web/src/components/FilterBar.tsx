@@ -17,9 +17,8 @@ import styles from './FilterBar.module.css';
  * Filtering, with the counts visible before you commit to a click.
  *
  * Each chip shows how many alerts selecting it would give — computed by the API with that
- * dimension's own filter removed. A chip reading `(0)` is disabled rather than hidden: an
- * operator who expects three critical alerts needs to see that there are none, not to wonder
- * where the button went.
+ * dimension's own filter removed. Zero-count chips remain visible and clickable; selecting one
+ * intentionally lands on the empty state, where the operator can clear the conflicting filters.
  */
 
 const SORT_LABEL: Record<AlertSort, string> = {
