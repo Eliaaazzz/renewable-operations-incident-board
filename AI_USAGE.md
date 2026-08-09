@@ -146,6 +146,7 @@ The user attached a screenshot of the board filtered to needs-attention/open-cri
 - Patched the E2E audit helper to wait for non-body roots before evaluating layout.
 - Added an E2E regression test that proves KPI drilldowns clear stale filters and show the in-progress critical alert.
 - After the first CI retry still failed, traced the real flake to stale URL state: the debounced search filter update could fire after a row click and close the drawer. Patched `useUrlState` to support updater functions and changed App filter/selection updates to preserve the latest state.
+- After E2E and the API Docker image passed in CI, the web Docker image failed because the monorepo install still builds `better-sqlite3` from the API workspace. Patched `docker/Dockerfile.web` to install Python and compiler build prerequisites in its build stage.
 
 ### User Prompt 4
 
