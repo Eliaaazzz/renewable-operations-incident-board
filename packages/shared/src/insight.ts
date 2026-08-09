@@ -57,7 +57,8 @@ export const ModelInsightSchema = z.object({
 });
 export type ModelInsight = z.infer<typeof ModelInsightSchema>;
 
-function clamp(value: string, max: number): string {
+/** Truncates to `max` characters on a word boundary where possible. */
+export function clampText(value: string, max: number): string {
   const trimmed = value.trim();
   if (trimmed.length <= max) return trimmed;
   // Cut on a word boundary where possible so the truncation does not read as corruption.
@@ -65,6 +66,8 @@ function clamp(value: string, max: number): string {
   const lastSpace = slice.lastIndexOf(' ');
   return `${(lastSpace > max * 0.6 ? slice.slice(0, lastSpace) : slice).trimEnd()}…`;
 }
+
+const clamp = clampText;
 
 /** Narrow a model answer to the strict display contract. Never throws for valid input. */
 export function normaliseInsight(raw: ModelInsight): InsightPayload {

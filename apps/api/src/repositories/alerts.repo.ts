@@ -194,6 +194,15 @@ export function createAlertsRepository(db: Db) {
       return result.changes === 1;
     },
 
+    /**
+     * Records activity without consuming the concurrency token. Adding a note is additive and
+     * cannot conflict with another operator's note, so bumping `version` here would only cause
+     * spurious 409s on an unrelated status change the operator had already staged.
+     */
+    touch(id: string, updatedAt: string): void {
+      db.prepare('UPDATE alerts SET updated_at = ? WHERE id = ?').run(updatedAt, id);
+    },
+
     insert(alert: Alert): void {
       insertStmt.run({
         id: alert.id,

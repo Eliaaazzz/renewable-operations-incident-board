@@ -231,7 +231,9 @@ function buildReasons(context: ReasonInput): string[] {
     return reasons;
   }
 
-  if (ageUplift > 0) {
+  // Below ~5% the uplift is not what put this alert where it is, and saying "+1% urgency"
+  // adds a number to the explanation without adding any information.
+  if (ageUplift >= 0.05) {
     reasons.push(
       `Open ${formatDuration(ageMinutes)} without resolution (+${Math.round(ageUplift * 100)}% urgency)`,
     );
